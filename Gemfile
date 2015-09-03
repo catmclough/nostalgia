@@ -14,7 +14,6 @@ gem 'rake'
 
 gem 'rack', '1.5.2'
 gem 'shotgun'
-gem 'omniauth-flickr'
 
 group :test do
   gem 'shoulda-matchers'
