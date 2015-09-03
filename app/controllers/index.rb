@@ -2,7 +2,7 @@ get "/" do
   erb :index
 end
 
-get "/home" do
-  @frob = params[:frob]
+get '/auth/flickr/callback' do
+  @user_hash = env['omniauth.auth']
   erb :index
 end

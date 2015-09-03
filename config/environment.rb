@@ -35,6 +35,11 @@ configure do
 
   # Set the views to
   set :views, File.join(Sinatra::Application.root, "app", "views")
+
+  Rails.application.config.middleware.use OmniAuth::Builder do
+    provider :flickr, "04a77a5882d327512673de9a22bd2ced", "53ecc8bf225f3a63", scope: 'read'
+  end
+
 end
 
 # Set up the controllers and helpers
