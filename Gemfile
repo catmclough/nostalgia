@@ -15,7 +15,7 @@ gem 'rake'
 gem 'rack', '1.5.2'
 gem 'shotgun'
 gem 'flickraw'
-
+gem 'pry'
 group :test do
   gem 'shoulda-matchers'
   gem 'rack-test'

@@ -16,22 +16,44 @@ end
 get '/check' do
 
   token = session.delete :token
-  session[:auth_flickr] = @auth_flickr = FlickRaw::Flickr.new
-
+  @auth_flickr = FlickRaw::Flickr.new
   @auth_flickr.get_access_token(token['oauth_token'], token['oauth_token_secret'], params['oauth_verifier'])
-  p @auth_flickr
-  login = @auth_flickr.test.login
-  %{
-You are now authenticated as <em>#{login.username}</em>
-with token <strong>#{@auth_flickr.access_token}</strong> and secret <strong>#{@auth_flickr.access_secret}</strong>.
-  }
+  # attempt to find the user using the flickr id from our database
+  user = User.find_by(flickr_user_id: @auth_flickr.test.login.id)
+  # if we don't find a user, build one
+  unless user
+    user = User.new(flickr_user_id: @auth_flickr.test.login.id)
+  end
+  # then update the user (regardless of new or existing) with the access_token, access_secret, and username
+  user.update_attributes(flickr_username: @auth_flickr.test.login.username, flickr_access_secret: @auth_flickr.access_secret, flickr_access_token: @auth_flickr.access_token)
+
+  # log the user in
+  session[:user_id] = user.id
+
+  # redirect to somewhere else
+  redirect '/photos'
+end
+
+get '/photos' do
+  @user = User.find(session[:user_id])
+  @user.flickr_client
   # id = flickr.people.findByUsername(:username => "#{login.username}").id
+  flickr.photos.search(:user_id => @user.flickr_user_id).each do |p|
+    p p.id
+   # p info =  flickr.photos.getInfo("photo_id" => p.id)
+   @photo_url = "http://farm#{p.farm}.static.flickr.com/#{p.server}/#{p.id}_#{p.secret}.jpg"
+  end
+
+erb :photo
+
+
+end
+
+
+
+  # end
+
   # flickr.photos.search(:user_id => id).each do |p|
   #   info = flickr.photos.getInfo(:photo_id => p.id)
   #   puts "Photo #{info}"
   # end
-end
-
-get '/session-viewer' do
-  session.inspect
-end

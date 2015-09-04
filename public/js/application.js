@@ -9,7 +9,9 @@ $(document).ready(function() {
 
     },function(data){
         $.each(data.items,function(i,item){
+
             $('<img/>').attr("src", item.media.m).appendTo($('.container'));
+            console.log(item)
             if (i== 9) return false;
         });
     });
