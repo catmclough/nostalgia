@@ -35,25 +35,17 @@ get '/check' do
 end
 
 get '/photos' do
+  @photo_array = []
   @user = User.find(session[:user_id])
   @user.flickr_client
   # id = flickr.people.findByUsername(:username => "#{login.username}").id
-  flickr.photos.search(:user_id => @user.flickr_user_id).each do |p|
-    p p.id
-   # p info =  flickr.photos.getInfo("photo_id" => p.id)
-   @photo_url = "http://farm#{p.farm}.static.flickr.com/#{p.server}/#{p.id}_#{p.secret}.jpg"
+  p = flickr.photos.search(:user_id => @user.flickr_user_id).each do |photo_object|
+    @photo_array << photo_object
   end
-
-erb :photo
+    @p = @photo_array.sample
+   # p info =  flickr.photos.getInfo("photo_id" => p.id)
+   @photo_url = "http://farm#{@p.farm}.static.flickr.com/#{@p.server}/#{@p.id}_#{@p.secret}.jpg"
+  erb :photo
 
 
 end
-
-
-
-  # end
-
-  # flickr.photos.search(:user_id => id).each do |p|
-  #   info = flickr.photos.getInfo(:photo_id => p.id)
-  #   puts "Photo #{info}"
-  # end
