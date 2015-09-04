@@ -37,6 +37,17 @@ configure do
   # Set the views to
   set :views, File.join(Sinatra::Application.root, "app", "views")
 
+  # Pony.options = {
+  #     :via => :smtp,
+  #     :via_options => {
+  #       :address => 'smtp.sendgrid.net',
+  #       :port => '587',
+  #       :domain => 'http://fathomless-thicket-7921.herokuapp.com/',
+  #       :authentication => :plain,
+  #       :enable_starttls_auto => true
+  #     }
+  #   }
+
 end
 
 # Set up the controllers and helpers

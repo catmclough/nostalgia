@@ -1,4 +1,5 @@
 require 'rake'
+require 'pony'
 
 require ::File.expand_path('../config/environment', __FILE__)
 
@@ -147,5 +148,25 @@ begin
   RSpec::Core::RakeTask.new(:spec)
 rescue LoadError
 end
+
+desc "Send an email to all users"
+  task :email_users do
+
+    subject = "Hello from Nostalgia"
+
+    Pony.mail(:to => 'catmclough@gmail.com', :from => "photosbynostalgia@gmail.com", :subject => subject,
+      :body => "Your Daily Dose of Nostalgia", :attachments => { "your-photo.jpg" => File.read("public/images/whale.jpg") })
+    puts "Email test ('#{subject}') sent to catmclough@gmail.com"
+  end
+  # else
+  #   User.find_each do |user|
+  #     unless user.email.blank?
+  #       name = user.title
+  #       Pony.mail :to => user.email, :from => "Codaset <help@codaset.com>", :subject => subject, :body => ERB.new(template).result(binding)
+  #       puts "Email ('#{subject}') sent to #{user.email}"
+  #     end
+  #   end
+  # end
+# end
 
 task :default  => :spec
