@@ -2,7 +2,7 @@ $(document).ready(function() {
     var apiKey = "04a77a5882d327512673de9a22bd2ced";
     var request = $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
     {
-        tags: "chicago",
+        tags: "fatcat",
         tagmode: "any",
         format: "json"
 
@@ -10,7 +10,7 @@ $(document).ready(function() {
     },function(data){
         $.each(data.items,function(i,item){
             $('<img/>').attr("src", item.media.m).appendTo($('.container'));
-            if (i== 5) return false;
+            if (i== 9) return false;
         });
     });
 });
