@@ -1,7 +1,31 @@
 $(document).ready(function() {
-  // This is called after the document has loaded in its entirety
-  // This guarantees that any elements we bind to will exist on the page
-  // when we try to bind to them
+    var apiKey = "04a77a5882d327512673de9a22bd2ced";
+    var request = $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
+    {
+        tags: "chicago",
+        tagmode: "any",
+        format: "json"
 
-  // See: http://docs.jquery.com/Tutorials:Introducing_$(document).ready()
+
+    },function(data){
+        $.each(data.items,function(i,item){
+            $('<img/>').attr("src", item.media.m).appendTo($('.container'));
+            if (i== 5) return false;
+        });
+    });
 });
+
+// $(document).ready(function() {
+//     var apiKey = "04a77a5882d327512673de9a22bd2ced";
+//     var request = $.getJSON("https://api.flickr.com/services/rest/?&method=flickr.people.getPublicPhotos&api_key="+
+//         apiKey + "&user_id=135876445@N04&per_page=12&page=4&format=json&jsoncallback=? ",
+//     {
+//         format: "json"
+
+//     },function(data){
+//         $.each(data.items,function(i,item){
+//             $('<img/>').attr("src", item.media.m).appendTo($('.container'));
+//         });
+//     });
+
+//     });
